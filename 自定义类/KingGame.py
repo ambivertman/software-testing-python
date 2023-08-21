@@ -1,107 +1,190 @@
-import random
+from random import randint
 import time
 
 
+# 软件中类的设计结构
+# - 游戏类
+#     - 玩家类
+#         - 战士类
+#
+#     - 森林类
+#         - 妖怪类
+
+
 class Player:
-    wealth = 1000
-    forestList = []
-    warriorDict = {}
-
-    def __init__(self, monsterDict):
-        # 生成随机的森林
-        for i in range(7):
-            self.forestList.append(Forest(monsterDict))
-
-        for index, forest in enumerate(self.forestList):
-            print(f"forest {index + 1} : {forest.monster}")
-        time.sleep(5)
-        print("\n" * 20 + "游戏开始!")
-        # 雇佣战士
-        archer_num = int(input("请输入你想要的弓箭手数目:"))
-        for i in range(archer_num):
-            name = input(f"请为{i + 1}号弓箭手命名:")
-            self.warriorDict[name] = Archer(name)
-            self.wealth -= 100
-
-        axeman_num = int(input("请输入你想要的斧头兵数目:"))
-        for i in range(axeman_num):
-            name = input(f"请为{i + 1}号斧头兵命名:")
-            self.warriorDict[name] = Axeman(name)
-            self.wealth -= 12
-
-    def challenge(self):
-        for index, forest in enumerate(self.forestList):
-            # 字典不为空继续挑战, 反之说明所有战士全部阵亡即挑战失败
-            if self.warriorDict:
-                warrior = self.battle(index + 1, forest)
-                self.rest(warrior)
-            else:
-                print("挑战失败")
-        print(f"挑战成功,灵石剩余数量:{self.wealth}")
-
-    # index 是森林序号, 用于提示玩家当前所处关卡
-    def battle(self, index, forest):
+    def __init__(self, wealth):
+        self.wealth = wealth
+        self.warriors = {}
+    # 雇佣战士
+    def hire_warrior(self, WarriorType):
+        if self.wealth - WarriorType.price < 0:
+            print(f"灵石余额不足,当前余额:{self.wealth}")
+            return
         while True:
-            warrior = self.choose_warrior(index)
-            if warrior.HP - warrior.ATK[forest.monster] >= 0:
-                warrior.HP -= warrior.ATK[forest.monster]
-                print(f"胜利! {warrior.name} HP : {warrior.HP}")
-                return warrior
+            name = input("请为战士命名:")
+            name = name.strip()
+            if name == '' or len(name) > 10:
+                print("昵称不合法,请重新输入!")
+                continue
+            if name in self.warriors:
+                print("该名称已被使用,请重新输入!")
+                continue
             else:
-                print(f"{warrior.name} HP : {warrior.HP}, 该战士已阵亡.")
-                self.warriorDict.pop(warrior.name)
+                break
 
-    def choose_warrior(self, index):
-        name = input(f"{index}号森林,请选择出战的战士的昵称:")
-        warrior = self.warriorDict[name]
-        return warrior
+        self.wealth -= WarriorType.price
+        self.warriors[name] = WarriorType(name)
+        print(f"{name}已加入队伍")
 
-    def rest(self, warrior):
-        rest = eval(input('''是否补给:
-    1. 是
-    0. 继续挑战
-输入:'''))
-        if rest:
-            if self.wealth > 0:
-                supplement = int(input("请输入补给的数量:"))
-                if self.wealth - supplement < 0:
-                    print("灵石不足!已进入下一个森林!")
-                else:
-                    print(f"补给成功!{warrior.name} HP : {warrior.HP}")
+    def hire(self):
+        hireMenu = '''
+请输入你想要雇佣的战士:
+1.弓箭手
+2.斧头兵
+3.退出
+输入:'''
+        while True:
+            choice = input(hireMenu)
+            if choice not in ['1', '2', '3']:
+                print("请输入正确的命令")
+                continue
+
+            if choice == '3':
+                break
+
+            if choice == '1':
+                self.hire_warrior(Archer)
             else:
-                print("灵石不足!已进入下一个森林!")
+                self.hire_warrior(Axeman)
+
+    def choose_warrior(self, name):
+        return self.warriors[name]
+    #治愈自己的战士
+    def heal(self, name, count):
+        if self.wealth < count:
+            print('剩余灵石不足')
+            return
+
+        self.warriors[name].HP += count
+        if self.warriors[name].HP > self.warriors[name].maxHP:
+            self.warriors[name].HP += self.warriors[name].maxHP
+        self.wealth -= count
+    # 输出玩家信息
+    def printInfo(self):
+        print('\n您麾下战士情况如下')
+        for name, warrior in self.warriors.items():
+            print(f'{name}: {warrior.typeName} 生命值 {warrior.HP}')
+
+        print(f'您的灵石还剩余{self.wealth}')
 
 
 class Warrior:
-    name = None
     price = None
-    HP = None
-    ATK = {}
+    maxHP = None
+    ATK = None
+
+    def __init__(self, name):
+        self.name = name
+        self.HP = self.maxHP
+
+    def battle(self, monster):
+        self.HP -= self.ATK[monster.typeName]
 
 
 class Archer(Warrior):
-    def __init__(self, name):
-        self.name = name
-        self.price = 100
-        self.HP = 100
-        self.ATK = {'鹰妖': 20, '狼妖': 80}
+    typeName = '弓箭手'
+    price = 100
+    maxHP = 100
+    ATK = {'鹰妖': 20, '狼妖': 80}
 
 
 class Axeman(Warrior):
-    def __init__(self, name):
-        self.name = name
-        self.price = 120
-        self.HP = 120
-        self.ATK = {'鹰妖': 80, '狼妖': 20}
+    typeName = '斧头兵'
+    price = 120
+    maxHP = 120
+    ATK = {'鹰妖': 80, '狼妖': 20}
+
+
+class Eagle:
+    typeName = '鹰妖'
+
+
+class Wolf:
+    typeName = '狼妖'
 
 
 class Forest:
-    monster = None
-
     def __init__(self, monsterDict):
-        self.monster = monsterDict[random.randint(1, len(monsterDict))]
+        self.monster = monsterDict[randint(1, len(monsterDict))]
 
 
-monsterDict = {1: "狼妖", 2: "鹰妖"}
-player = Player(monsterDict)
-player.challenge()
+class Game():
+    monsterDict = {1: Eagle, 2: Wolf}
+
+    def __init__(self):
+        self.player = Player(1000)
+        self.forests = []
+
+    # 生成含有随机妖怪的森林
+    def generate_forests(self):
+        for i in range(7):
+            self.forests.append(Forest(self.monsterDict))
+        print("本次游戏森林中的怪物是:")
+        for forest in self.forests:
+            print(forest.monster.typeName)
+        time.sleep(5)
+        print('\n' * 20)
+    #玩家招募战士
+    def player_build_team(self):
+        self.player.hire()
+        print("队伍组建完成,挑战开始!")
+    #游戏主体
+    def challenge(self):
+        for forestNo, forest in enumerate(self.forests):
+            while True:
+                while True:
+                    name = input("输入出战战士的名称:")
+                    name = name.strip()
+                    if name not in self.player.warriors:
+                        print("该战士不存在,请重新输入!")
+                        continue
+                    break
+
+                warrior = self.player.choose_warrior(name)
+                print(f'当前森林里面是 {forest.monster.typeName}')
+                warrior.battle(forest.monster)
+                if warrior.HP <= 0:
+                    print(f"{warrior.name}已牺牲,请派出另外一名战士!")
+                    self.player.warriors.pop(name)
+                    continue
+                else:
+                    break
+
+            while True:
+                self.player.printInfo()
+                is_Continue = input('''是否治疗?
+1.治疗
+2.退出
+输入:''')
+                if is_Continue == '1':
+                    pass
+                else:
+                    break
+                while True:
+
+                    op = input('''\n请输入疗伤战士名字和灵石数量，格式如为：姓名+20\n输入:''')
+                    if '+' not in op:
+                        print("格式错误,请重新输入!")
+                        continue
+                    else:
+                        name, count = op.split('+')
+                        count = int(count)
+                        self.player.heal(name, count)
+                        break
+
+
+
+game = Game()
+game.generate_forests()
+game.player_build_team()
+game.challenge()
