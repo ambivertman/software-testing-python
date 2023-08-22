@@ -1,4 +1,4 @@
-with open('./prac_filerw.txt','r',encoding='utf8') as f:
+with open('prac_filerw.txt', 'r', encoding='utf8') as f:
     content = f.read()
 linelist = list(filter(None,content.splitlines()))
 num = int(input("请输入像增加的数值: "))
@@ -18,6 +18,6 @@ for index, line in enumerate(linelist):
         replaceNum = eval(originalNum) + num
         linelist[index] = line.replace(f"p={originalNum}",f"p={str(replaceNum)}")
 
-with open("./prac_filerw.txt",'w',encoding="utf8") as f:
+with open("prac_filerw.txt", 'w', encoding="utf8") as f:
     f.write('\n'.join(linelist))
 

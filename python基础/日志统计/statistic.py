@@ -1,4 +1,4 @@
-with open('./2019-10-22_11.05.40.log', 'r', encoding='utf8') as f:
+with open('2019-10-22_11.05.40.log', 'r', encoding='utf8') as f:
     content = f.readlines()
 
 for index, line in enumerate(content):

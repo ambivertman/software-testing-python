@@ -1,4 +1,4 @@
-with open("./0016_1.txt", 'r', encoding='utf8') as f:
+with open("0016_1.txt", 'r', encoding='utf8') as f:
     content = f.readlines()
 
 for index, line in enumerate(content):

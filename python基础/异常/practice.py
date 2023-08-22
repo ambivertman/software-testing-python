@@ -1,4 +1,4 @@
-with open('./0019.txt','rb') as f:
+with open('0019.txt', 'rb') as f:
     content = f.read().splitlines()
 
 for index,line in enumerate(content):

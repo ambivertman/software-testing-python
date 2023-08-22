@@ -1,4 +1,4 @@
-with open('./stock.txt','r',encoding='utf8') as f:
+with open('stock.txt', 'r', encoding='utf8') as f:
     content = f.read()
     content = content.splitlines()
 #将原始文件分割为"股票名称": 股票代码后存入字典
