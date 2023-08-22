@@ -15,6 +15,7 @@ class Player:
     def __init__(self, wealth):
         self.wealth = wealth
         self.warriors = {}
+
     # 雇佣战士
     def hire_warrior(self, WarriorType):
         if self.wealth - WarriorType.price < 0:
@@ -59,7 +60,8 @@ class Player:
 
     def choose_warrior(self, name):
         return self.warriors[name]
-    #治愈自己的战士
+
+    # 治愈自己的战士
     def heal(self, name, count):
         if self.wealth < count:
             print('剩余灵石不足')
@@ -69,6 +71,7 @@ class Player:
         if self.warriors[name].HP > self.warriors[name].maxHP:
             self.warriors[name].HP += self.warriors[name].maxHP
         self.wealth -= count
+
     # 输出玩家信息
     def printInfo(self):
         print('\n您麾下战士情况如下')
@@ -134,11 +137,13 @@ class Game():
             print(forest.monster.typeName)
         time.sleep(5)
         print('\n' * 20)
-    #玩家招募战士
+
+    # 玩家招募战士
     def player_build_team(self):
         self.player.hire()
         print("队伍组建完成,挑战开始!")
-    #游戏主体
+
+    # 游戏主体
     def challenge(self):
         for forestNo, forest in enumerate(self.forests):
             while True:
@@ -181,7 +186,6 @@ class Game():
                         count = int(count)
                         self.player.heal(name, count)
                         break
-
 
 
 game = Game()
