@@ -17,3 +17,18 @@
     > #如果直接使用team2 = team1 两个变量实际上是同一个
     > #可以使用以下方式进行深拷贝
     > team2 = json.loads(json.dumps(team1))
+
+### 正则表达式
+
+查询教程:[python进阶|正则表达式](https://www.byhy.net/tut/py/extra/regex/)
+
+`re.sub()`可以的参数设置:
+
+- `pattern`: 要查找的正则表达式模式。
+- `replacement`: 要替换匹配到的模式的字符串。
+- `string`: 要在其中执行替换操作的输入字符串。
+- `count`: 可选参数，指定最大替换次数。默认值为 0，表示替换所有匹配项。
+- `flags`: 可选参数，用于指定正则表达式的匹配标志。
+
+其中`replacement`可以将**自定义的替换规则`subfunc()`**作为函数对象传递给函数. 其作用过程是一发现可以匹配的内容时就向函数一个match对象作为参数, 然后在subFunc()中完成替换后,返回给`re.sub()`
+
