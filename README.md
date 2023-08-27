@@ -32,3 +32,17 @@
 
 其中`replacement`可以将**自定义的替换规则`subfunc()`**作为函数对象传递给函数. 其作用过程是一发现可以匹配的内容时就向函数一个match对象作为参数, 然后在subFunc()中完成替换后,返回给`re.sub()`
 
+## 2023-8-27
+
+### excel读写
+
+将含有多个键值对的字典列表写入excel
+
+```python
+header_row = sheet.append(list(target_info[0].keys()))
+
+for info in target_info:
+    row = [info[key] for key in info]
+    sheet.append(row)
+```
+
