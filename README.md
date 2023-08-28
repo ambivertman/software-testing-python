@@ -46,3 +46,22 @@ for info in target_info:
     sheet.append(row)
 ```
 
+## 2023-8-28
+
+今天学到的小技巧:
+
+1. 快速将字典的简直互换:
+
+   ```python
+   swapped_dict = {value: key for key, value in original_dict.items()}
+   ```
+
+2. 将列表连接成字符串
+
+   ```python
+   list_str = ','.join(list)
+   ```
+
+   
+
+   
