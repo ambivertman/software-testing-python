@@ -6,14 +6,3 @@
 # Datasource local storage ignored files
 /dataSources/
 /dataSources.local.xml
-/python进阶/文件与目录操作/backup/
-/python进阶/文件与目录操作/prac_re/
-/python进阶/文件与目录操作/source/
-/python进阶/正则表达式/prac_re/
-/python进阶/读取excel/数据筛选/
-/python进阶/读取excel/income.xlsx
-/python进阶/读取excel/income-1.xlsx
-/python进阶/读取excel/信息.xlsx
-/python进阶/读取excel/信息表2.xlsx
-/python进阶/读取excel/信息表3.xlsx
-/python进阶/调用程序/callOthers/
