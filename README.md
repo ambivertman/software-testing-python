@@ -1,6 +1,56 @@
 # software-testing-python
 记录学习自动化软件测试的过程
+
+## 2023-8-29
+
+### selenium
+
+#### 常见操作
+
+1. webdriver.implicly_itwait(), 可以用于弹性等待页面元素加载
+2. find_element(s) 通过多种方式查找自己需要的元素
+
+### css selector
+
+1. 使用css selector查找tag时, tag name前面需要加#
+2. 查找含有`title`属性, 但没有`class`属性的a标签
+
+```python
+'a[title]:not([class])'
+```
+
+## 2023-8-28
+
+### 今天学到的小技巧:
+
+1. 快速将字典的简直互换:
+
+   ```python
+   swapped_dict = {value: key for key, value in original_dict.items()}
+   ```
+
+2. 将列表连接成字符串
+
+   ```python
+   list_str = ','.join(list)
+   ```
+
+## 2023-8-27
+
+### excel读写
+
+将含有多个键值对的字典列表写入excel
+
+```python
+header_row = sheet.append(list(target_info[0].keys()))
+
+for info in target_info:
+    row = [info[key] for key in info]
+    sheet.append(row)
+```
+
 ## 2023-8-26
+
 ### json
 1. json.load()与json.loads()的区别
     >前者用于解析文件,后者用于的解析json格式的字符串
@@ -32,36 +82,3 @@
 
 其中`replacement`可以将**自定义的替换规则`subfunc()`**作为函数对象传递给函数. 其作用过程是一发现可以匹配的内容时就向函数一个match对象作为参数, 然后在subFunc()中完成替换后,返回给`re.sub()`
 
-## 2023-8-27
-
-### excel读写
-
-将含有多个键值对的字典列表写入excel
-
-```python
-header_row = sheet.append(list(target_info[0].keys()))
-
-for info in target_info:
-    row = [info[key] for key in info]
-    sheet.append(row)
-```
-
-## 2023-8-28
-
-今天学到的小技巧:
-
-1. 快速将字典的简直互换:
-
-   ```python
-   swapped_dict = {value: key for key, value in original_dict.items()}
-   ```
-
-2. 将列表连接成字符串
-
-   ```python
-   list_str = ','.join(list)
-   ```
-
-   
-
-   
