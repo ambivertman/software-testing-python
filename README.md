@@ -1,6 +1,30 @@
 # software-testing-python
 记录学习自动化软件测试的过程
 
+## 2023-8-30
+
+### 今天学到的知识:
+
+1. 处理iframe元素的方法:
+
+   ```python
+   wd.switch_to.frame(frame_reference)
+   ```
+
+2. 在浏览器中的不同窗口间切换:
+
+   ```python
+   for handle in wd.window_handles:
+       # 先切换到该窗口
+       wd.switch_to.window(handle)
+       # 得到该窗口的标题栏字符串，判断是不是我们要操作的那个窗口
+       if 'target' in wd.title:
+           # 如果是，那么这时候WebDriver对象就是对应的该该窗口，正好，跳出循环，
+           break
+   ```
+
+   
+
 ## 2023-8-29
 
 ### selenium
